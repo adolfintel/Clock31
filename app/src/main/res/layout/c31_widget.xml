@@ -1,0 +1,106 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.Clock31.AppWidgetContainer"
+    >
+
+    <TextClock
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clock"
+        android:gravity="center_horizontal"
+        android:textSize="80dp"
+        android:textFontWeight="100"
+        android:fontFamily="sans-serif"
+        android:textColor="#ffffff"
+        android:shadowColor="#000000"
+        android:shadowRadius="5"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:format24Hour="HH:mm"
+        android:format12Hour="h:mm a"
+        android:text="TI:ME"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/clock"
+        android:gravity="center_horizontal"
+        android:id="@+id/date_alarm_container"
+        >
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date"
+            android:textSize="18dp"
+            android:textFontWeight="700"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowRadius="4"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
+            android:format24Hour="EE, d MMMM"
+            android:format12Hour="EE, d MMMM"
+            android:text="Date"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/alarm"
+            android:textSize="18dp"
+            android:textFontWeight="700"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowRadius="4"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
+            android:layout_marginStart="18dp"
+            android:text="Next alarm"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date_alarm_container"
+        android:id="@+id/calendar_container"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🗓️"
+            android:textSize="24dp"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowRadius="3"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:id="@+id/calendar_icon"
+            />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#20ffffff"
+            android:id="@+id/calendar_vbar"
+            />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/calendar"
+            android:dividerHeight="1dp"
+            android:divider="#20ffffff"
+            />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
