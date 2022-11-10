@@ -5,8 +5,6 @@ Clock 31 is a Clock + Calendar combo widget for Android, inspired by (but not fo
 
 The widget shows the current time and date, the next alarm (if any), and upcoming events for all your calendars (the colors on the left indicates the calendar to which they belong). Some useful shortcuts are also provided: tapping the clock will bring you to the clock and alarm app, tapping the calendar icon will open the calendar, tapping an event will bring you to the details of that event.
 
-__The project is still very much in alpha.__
-
 ## Download
 [Download APK](https://downloads.fdossena.com/geth.php?r=clock31-apk)
 

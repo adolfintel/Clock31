@@ -142,40 +142,48 @@ public class CalendarRemoteViewsService extends RemoteViewsService{
 
         @Override
         public int getCount() {
-            return entries.size();
+            if(!entries.isEmpty()) return entries.size(); else return 1;
         }
 
         @Override
         public RemoteViews getViewAt(int i) {
-            RemoteViews v=new RemoteViews(context.getPackageName(),R.layout.calendar_entry);
-            CalendarListEntry data=entries.get(i);
-            if(data==null) return null;
-            v.setTextViewText(R.id.event_title,data.eventTitle);
-            String formattedDate;
-            if(data.eventAllDay){
-                if(data.eventEnd-data.eventBegin>DAY_IN_MS){
-                    formattedDate= DateUtils.formatDateRange(context,data.eventBegin,data.eventEnd,DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_ALL);
+            if(!entries.isEmpty()){
+                RemoteViews v=new RemoteViews(context.getPackageName(),R.layout.calendar_entry);
+                CalendarListEntry data=entries.get(i);
+                if(data==null) return null;
+                v.setTextViewText(R.id.event_title,data.eventTitle);
+                String formattedDate;
+                if(data.eventAllDay){
+                    if(data.eventEnd-data.eventBegin>DAY_IN_MS){
+                        formattedDate= DateUtils.formatDateRange(context,data.eventBegin,data.eventEnd,DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_ALL);
+                    }else{
+                        formattedDate= DateUtils.formatDateTime(context,data.eventBegin,DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_ALL);
+                    }
                 }else{
-                    formattedDate= DateUtils.formatDateTime(context,data.eventBegin,DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_ALL);
+                    if(DateUtils.isToday(data.eventBegin)&&DateUtils.isToday(data.eventEnd)){
+                        formattedDate= DateUtils.formatDateRange(context,data.eventBegin,data.eventEnd,DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_NO_NOON|DateUtils.FORMAT_NO_MIDNIGHT);
+                    }else{
+                        formattedDate= DateUtils.formatDateRange(context,data.eventBegin,data.eventEnd,DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_ALL|DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_NO_NOON|DateUtils.FORMAT_NO_MIDNIGHT);
+                    }
                 }
+                v.setTextViewText(R.id.event_date,formattedDate);
+                v.setInt(R.id.color_bar,"setBackgroundColor",data.eventColor);
+                Intent openEvent=new Intent();
+                openEvent.setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,data.eventId));
+                openEvent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_NO_HISTORY
+                        | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                v.setOnClickFillInIntent(R.id.calendar_entry,openEvent);
+                return v;
             }else{
-                if(DateUtils.isToday(data.eventBegin)&&DateUtils.isToday(data.eventEnd)){
-                    formattedDate= DateUtils.formatDateRange(context,data.eventBegin,data.eventEnd,DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_NO_NOON|DateUtils.FORMAT_NO_MIDNIGHT);
-                }else{
-                    formattedDate= DateUtils.formatDateRange(context,data.eventBegin,data.eventEnd,DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_ALL|DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_NO_NOON|DateUtils.FORMAT_NO_MIDNIGHT);
-                }
+                RemoteViews v=new RemoteViews(context.getPackageName(),R.layout.calendar_entry);
+                v.setTextViewText(R.id.event_title,getString(R.string.no_events));
+                v.setTextViewText(R.id.event_date,getString(R.string.tap_calendar));
+                v.setInt(R.id.color_bar,"setBackgroundColor",0x00000000);
+                return v;
             }
-            v.setTextViewText(R.id.event_date,formattedDate);
-            v.setInt(R.id.color_bar,"setBackgroundColor",data.eventColor);
-            Intent openEvent=new Intent();
-            openEvent.setData(ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI,data.eventId));
-            openEvent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    | Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    | Intent.FLAG_ACTIVITY_NO_HISTORY
-                    | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-            v.setOnClickFillInIntent(R.id.calendar_entry,openEvent);
-            return v;
         }
 
         @Override
@@ -190,7 +198,7 @@ public class CalendarRemoteViewsService extends RemoteViewsService{
 
         @Override
         public long getItemId(int i) {
-            return entries.get(i).eventId;
+            if(!entries.isEmpty()) return entries.get(i).eventId; else return -1;
         }
 
         @Override

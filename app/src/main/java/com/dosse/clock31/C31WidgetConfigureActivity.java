@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 
 import com.dosse.clock31.databinding.C31WidgetConfigureBinding;
 
@@ -20,21 +19,6 @@ public class C31WidgetConfigureActivity extends Activity {
     private static final String PREF_PREFIX_KEY = "appwidget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
-    View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            final Context context = C31WidgetConfigureActivity.this;
-
-            // It is the responsibility of the configuration activity to update the app widget
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            C31Widget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
-
-            // Make sure we pass back the original appWidgetId
-            Intent resultValue = new Intent();
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-            setResult(RESULT_OK, resultValue);
-            finish();
-        }
-    };
     private C31WidgetConfigureBinding binding;
 
     public C31WidgetConfigureActivity() {
@@ -51,8 +35,6 @@ public class C31WidgetConfigureActivity extends Activity {
 
         binding = C31WidgetConfigureBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        binding.addButton.setOnClickListener(mOnClickListener);
 
         // Find the widget id from the intent.
         Intent intent = getIntent();
@@ -72,5 +54,16 @@ public class C31WidgetConfigureActivity extends Activity {
             requestPermissions(new String[]{Manifest.permission.READ_CALENDAR},101);
         }
 
+        final Context context = C31WidgetConfigureActivity.this;
+
+        // It is the responsibility of the configuration activity to update the app widget
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        C31Widget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+
+        // Make sure we pass back the original appWidgetId
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        setResult(RESULT_OK, resultValue);
+        finish();
     }
 }

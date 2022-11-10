@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Clock 31</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
+    <string name="app_name" translatable="false">Clock 31</string>
     <string name="app_widget_description">Simple clock and calendar combo widget</string>
+    <string name="clock31_initializing">Clock31 initializing...</string>
+    <string name="no_events">No upcoming events</string>
+    <string name="tap_calendar">Tap the calendar icon to create one</string>
 </resources>
