@@ -3,10 +3,12 @@ package com.dosse.clock31;
 import android.Manifest;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 
 import com.dosse.clock31.databinding.C31WidgetConfigureBinding;
 
@@ -51,19 +53,43 @@ public class C31WidgetConfigureActivity extends Activity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.READ_CALENDAR},101);
+            if(checkPermission(Manifest.permission.READ_CALENDAR,android.os.Process.myPid(),android.os.Process.myUid())==PackageManager.PERMISSION_GRANTED){
+                proceedWithWidgetCreation();
+                return;
+            }else{
+                requestPermissions(new String[]{Manifest.permission.READ_CALENDAR},101);
+            }
         }
+    }
 
-        final Context context = C31WidgetConfigureActivity.this;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==101){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                proceedWithWidgetCreation();
+            }else{
+                failWidgetCreation();
+            }
+        }
+    }
 
+    private void proceedWithWidgetCreation(){
         // It is the responsibility of the configuration activity to update the app widget
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        C31Widget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
-
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        C31Widget.updateAppWidget(this, appWidgetManager, mAppWidgetId);
         // Make sure we pass back the original appWidgetId
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
         setResult(RESULT_OK, resultValue);
+        finish();
+    }
+
+    private void failWidgetCreation(){
+        // Make sure we pass back the original appWidgetId
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        setResult(RESULT_CANCELED, resultValue);
         finish();
     }
 }
