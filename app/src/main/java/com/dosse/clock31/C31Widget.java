@@ -65,10 +65,18 @@ public class C31Widget extends AppWidgetProvider {
             views.setTextViewTextSize(R.id.alarm, TypedValue.COMPLEX_UNIT_DIP, 18 * dateFontScale);
         }
         PackageManager pm=context.getPackageManager();
-        PendingIntent openClockApp=PendingIntent.getActivity(context, 0, pm.getLaunchIntentForPackage("com.android.deskclock"), PendingIntent.FLAG_UPDATE_CURRENT|(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M?PendingIntent.FLAG_IMMUTABLE:0));
-        views.setOnClickPendingIntent(R.id.clock,openClockApp);
-        PendingIntent openCalendarApp=PendingIntent.getActivity(context,0,new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_CALENDAR), PendingIntent.FLAG_UPDATE_CURRENT|(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M?PendingIntent.FLAG_IMMUTABLE:0));
-        views.setOnClickPendingIntent(R.id.calendar_icon,openCalendarApp);
+        try{
+            PendingIntent openClockApp=PendingIntent.getActivity(context, 0, pm.getLaunchIntentForPackage("com.android.deskclock"), PendingIntent.FLAG_UPDATE_CURRENT|(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M?PendingIntent.FLAG_IMMUTABLE:0));
+            views.setOnClickPendingIntent(R.id.clock,openClockApp);
+        }catch(Throwable t){
+            Log.v(TAG,"Failed to register event handler for tapping clock (no app?)");
+        }
+        try {
+            PendingIntent openCalendarApp = PendingIntent.getActivity(context, 0, new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_CALENDAR), PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
+            views.setOnClickPendingIntent(R.id.calendar_icon, openCalendarApp);
+        }catch(Throwable t){
+            Log.v(TAG,"Failed to register event handler for calendar icon (no app?)");
+        }
         if(!hideAlarm){
             AlarmManager am =(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             AlarmManager.AlarmClockInfo alarmClock = am.getNextAlarmClock();
@@ -81,7 +89,12 @@ public class C31Widget extends AppWidgetProvider {
                     alarm=DateFormat.format("⏰ E hh:mma",alarmClock.getTriggerTime());
                 }
                 views.setTextViewText(R.id.alarm,alarm);
-                views.setOnClickPendingIntent(R.id.alarm,openClockApp);
+                try{
+                    PendingIntent openClockApp=PendingIntent.getActivity(context, 0, pm.getLaunchIntentForPackage("com.android.deskclock"), PendingIntent.FLAG_UPDATE_CURRENT|(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M?PendingIntent.FLAG_IMMUTABLE:0));
+                    views.setOnClickPendingIntent(R.id.alarm,openClockApp);
+                }catch(Throwable t){
+                    Log.v(TAG,"Failed to register event handler for tapping alarm (no app?)");
+                }
             }else {
                 views.setViewVisibility(R.id.alarm, View.GONE);
             }
