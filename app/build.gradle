@@ -11,8 +11,6 @@ android {
         targetSdk 32
         versionCode 3
         versionName '1.0.1'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {

@@ -7,8 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
+import android.os.Process;
 
 import com.dosse.clock31.databinding.C31WidgetConfigureBinding;
 
@@ -53,7 +52,7 @@ public class C31WidgetConfigureActivity extends Activity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkPermission(Manifest.permission.READ_CALENDAR,android.os.Process.myPid(),android.os.Process.myUid())==PackageManager.PERMISSION_GRANTED){
+            if(checkPermission(Manifest.permission.READ_CALENDAR,Process.myPid(),Process.myUid())==PackageManager.PERMISSION_GRANTED){
                 proceedWithWidgetCreation();
                 return;
             }else{
@@ -63,7 +62,7 @@ public class C31WidgetConfigureActivity extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==101){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
