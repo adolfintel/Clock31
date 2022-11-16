@@ -1,0 +1,3 @@
+* Fixed possible crash during widget creation/initialization
+* Improved permissions-related code
+* Removed some unnecessary leftover code

@@ -1,0 +1,3 @@
+* Risolto un possibile crash durante la creazione e l'inizializzazione del widget
+* Migliorato il codice che gestisce i permessi
+* Rimosso del codice non necessario

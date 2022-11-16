@@ -1,0 +1,3 @@
+Clock31 è widget con Orologio e Calendario per Android, ispirato da (ma non forkato da) il widget cLock presente nelle vecchie versioni di LineageOS.
+
+Il widget mostra la data e l'ora correnti, il prossimo allarme (se attivo) e gli eventi dei prossimi 14 giorni in tutti i calendari (i colori sulla sinistra indicano a quale calendario appartiene l'evento). Il widget fornisce anche alcune scorciatoie: toccando un evento si aprono i dettagli nel calendario, cliccando l'ora si apre l'applicazione orologio e allarme, toccando l'icona del calendario si apre l'app del calendario.
