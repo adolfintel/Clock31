@@ -9,7 +9,7 @@ The widget shows the current time and date, the next alarm (if any), and upcomin
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.gyorog.polycal/)
+     height="80">](https://f-droid.org/packages/com.dosse.clock31/)
 
 Or [download the APK](https://downloads.fdossena.com/geth.php?r=clock31-apk).
 
