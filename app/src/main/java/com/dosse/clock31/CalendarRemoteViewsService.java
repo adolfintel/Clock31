@@ -79,6 +79,7 @@ public class CalendarRemoteViewsService extends RemoteViewsService{
 
         private void updateCalendarInfo(){
             Log.v(TAG,"Updating calendar info");
+            C31Widget.updatePending=false;
             if(context.checkPermission(Manifest.permission.READ_CALENDAR, Process.myPid(), Process.myUid())== PackageManager.PERMISSION_GRANTED){
                 try {
                     Uri uri = Uri.withAppendedPath(CalendarContract.Instances.CONTENT_URI, String.format(Locale.ENGLISH, "%d/%d", System.currentTimeMillis(), System.currentTimeMillis() + 14 * DAY_IN_MS));
