@@ -81,7 +81,7 @@ public class C31Widget extends AppWidgetProvider {
             }
             try {
                 PendingIntent openCalendarApp = PendingIntent.getActivity(context, 0, new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_CALENDAR), PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
-                views.setOnClickPendingIntent(R.id.calendar_icon, openCalendarApp);
+                views.setOnClickPendingIntent(R.id.date, openCalendarApp);
             } catch (Throwable t) {
                 Log.v(TAG, "Failed to register event handler for calendar icon (no app?)");
             }

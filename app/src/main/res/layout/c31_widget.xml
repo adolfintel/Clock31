@@ -73,18 +73,6 @@
         android:id="@+id/calendar_container"
         >
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🗓️"
-            android:textSize="24dp"
-            android:textColor="#ffffff"
-            android:shadowColor="#000000"
-            android:shadowRadius="3"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:id="@+id/calendar_icon"
-            />
-        <TextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="#20ffffff"
